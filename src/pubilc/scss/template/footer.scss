@@ -1,0 +1,18 @@
+footer{
+    width: 100%;
+    background-color: $blue;
+    position: absolute;
+    bottom:0px;
+    .footer_wrap{
+        display:flex;
+        flex-direction: column;
+        padding:50px 0px;
+        align-items: center;
+        .copylight{
+            margin-top:30px;
+            font-size:10px;
+            font-weight: 600;
+            color:rgba(255,255,255,0.4)
+        }
+    }
+}
