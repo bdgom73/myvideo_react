@@ -1,6 +1,7 @@
 import react from "react";
 import {Header,Footer} from "../routes";
 import axios from "axios";
+import { Link} from 'react-router-dom';
 export default class home extends react.Component{
     constructor(props){
         super(props);
@@ -23,6 +24,11 @@ export default class home extends react.Component{
             videos
         });
     }
+
+    componentDidMount(){
+        const {getVideos} = this;
+        getVideos();
+    }
     render(){
         const {videos} = this.state;
         console.log(videos)
@@ -34,8 +40,15 @@ export default class home extends react.Component{
                     {videos.map((videos)=>{
                         return(
                             <>
-                            <div>{videos.title}</div>
-                            <div>{videos.name}</div>
+                            <div className="videos_wrap">
+                                <Link to="/"  title={videos.title+"로 바로가기"}>
+                                    <img src="#"/>
+                                    <div className="videos_info">
+                                        <div className="videos_title">{videos.title}</div>
+                                        <div className="videos_name">by {videos.name}</div>
+                                    </div>
+                                </Link>
+                            </div>
                             </>
                         );
                     })}

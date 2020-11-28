@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {NonLogin,IsLogin} from "../../routes";
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
-class header extends react.Component{
+class Header extends react.Component{
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
@@ -34,4 +34,4 @@ class header extends react.Component{
         );
     }
 }
-export default withCookies(header)
+export default withCookies(Header)

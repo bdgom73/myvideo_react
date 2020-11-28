@@ -4,7 +4,7 @@ import { Social } from "../../routes";
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
 
-class login extends react.Component{
+class Login extends react.Component{
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
@@ -63,4 +63,4 @@ class login extends react.Component{
         );
     }
 }
-export default withCookies(login)
+export default withCookies(Login)
