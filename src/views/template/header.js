@@ -9,11 +9,17 @@ class Header extends react.Component{
     };
     constructor(props){
         super(props);
-        const {cookies} =props
+        const {cookies} = props
         this.state={
             user : cookies.get("uid") || null
         } 
     }
+
+    logout = ()=>{
+        const {cookies}= this.props;
+        cookies.remove("uid");
+    }
+    
     render(){
         const {user} = this.state;
         return(

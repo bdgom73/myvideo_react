@@ -1,10 +1,10 @@
-import {Home,Login, Signup,Mypage} from "./routes"
+import {Home,Login, Signup,Mypage, Upload, PrivateRouter,PubilcRouter, Logout, Search} from "./routes"
 import react from 'react';
 import "./pubilc/scss/style.scss"
 import { BrowserRouter as Router, Switch,Route } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
-import mypage from "./views/page/mypage";
+
 class App extends react.Component{
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -20,12 +20,16 @@ class App extends react.Component{
   render(){
     return(
       <Router>
-        <Switch>
-          <Route path="/" exact component={Home}></Route>
-          <Route path="/mypage" exact component={Mypage}></Route>
-          <Route path="/login" exact component={Login}></Route>
-          <Route path="/signup" exact component={Signup}></Route>
-        </Switch>
+        {/* Global Router */}
+        <Route path="/" exact component={Home}></Route>   
+        <Route path="/search" exact component={Search}></Route>    
+        <PubilcRouter path="/login" exact component={Login}/>
+        <PrivateRouter component={Logout} path="/logout" ></PrivateRouter>
+        <PubilcRouter path="/signup" exact component={Signup}/>
+      
+        <PrivateRouter component={Mypage} path="/me" ></PrivateRouter>
+        {/* Video Router */}
+        <PrivateRouter component={Upload} path="/video/upload"></PrivateRouter>
       </Router>
     )
   }

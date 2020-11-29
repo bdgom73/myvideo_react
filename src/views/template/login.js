@@ -1,5 +1,6 @@
 import react from "react";
 import { Link } from 'react-router-dom';
+
 export class nonLogin extends react.Component{
     render(){
         return(
@@ -16,6 +17,9 @@ export class nonLogin extends react.Component{
 }
 
 export class isLogin extends react.Component{
+
+    
+
     render(){
         return(
             <>
@@ -30,3 +34,4 @@ export class isLogin extends react.Component{
         );
     }
 }
+

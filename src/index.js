@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from 'react-cookie';
 ReactDOM.render(
   <React.StrictMode>
+    <createBrowserHistory>
     <CookiesProvider>
       <App />
     </CookiesProvider>
+    </createBrowserHistory>
   </React.StrictMode>,
   document.getElementById('root')
 );

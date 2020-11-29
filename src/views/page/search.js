@@ -1,7 +1,8 @@
 import react from "react";
-import {Header,Footer} from "../routes";
+import {Header,Footer} from "../../routes";
 import axios from "axios";
 import { Link} from 'react-router-dom';
+import quertString from "query-string";
 export default class home extends react.Component{
     constructor(props){
         super(props);
@@ -17,9 +18,11 @@ export default class home extends react.Component{
         }
     }
     getVideos = async () =>{
+        const {location} = this.props
+        const query = quertString.parse(location.search);
         const videos = await axios({
             method:"get",
-            url:"/api/videos/all"
+            url:"/api/videos/"+ query.q
         });
         this.setState({
             videos
@@ -32,7 +35,8 @@ export default class home extends react.Component{
     }
     render(){
         const {videos} = this.state;
-        console.log(videos)
+        const query = quertString.parse(this.props.location.search);
+        console.log(query.q)
         return(
         <>
             <Header/>
@@ -43,7 +47,6 @@ export default class home extends react.Component{
                             <>
                             <div className="videos_wrap">
                                 <Link to="/"  title={videos.title+"로 바로가기"}>
-                                    <img src="#"/>
                                     <div className="videos_info" key={videos.id}>
                                         <div className="videos_title">{videos.title}</div>
                                         <div className="videos_name">by {videos.name}</div>
