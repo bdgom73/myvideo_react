@@ -1,0 +1,48 @@
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    input:not([type="submit"]){
+        width: 100%;
+        padding:12px 5px;
+        border-radius: 5px;
+        border:2px solid $dark-blue;
+        font-size:12px;
+    }
+    input:first-child{
+        margin-top:15px;
+    }
+    input:not(:last-child){
+        margin-bottom: 15px;
+    }
+    input[type="submit"]{
+        width: 100%;
+        border-radius: 5px;
+        padding:10px 15px;
+        font-size:20px;
+        background-color: $yellow;
+        font-weight: 600;
+        border:0;
+    }
+  
+}
+button{
+    width: 100%;
+    border-radius: 5px;
+    padding:10px 15px;
+    font-size:20px;
+    background-color: $blue;
+    color:white;
+    font-weight: 600;
+    border:0;
+}
+
+button.naver{
+    background-color: $naver;
+    margin-top:10px;
+}
+button.fb{
+    background-color: $fb;
+    margin-top:5px;
+}

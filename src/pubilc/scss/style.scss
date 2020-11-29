@@ -1,0 +1,11 @@
+//Global scss
+@import "./reset.scss";
+@import "./basic.scss";
+//Template scss
+@import "./template/form.scss";
+@import "./template/header.scss";
+@import "./template/footer.scss";
+//Page scss
+@import "./page/signup.scss";
+@import "./page/login.scss";
+@import "./page/home.scss";
