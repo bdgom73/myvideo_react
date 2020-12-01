@@ -8,12 +8,7 @@ export default class home extends react.Component{
         this.state = {
             user : [],
             videos:[
-                {
-                    title:"First Video!",
-                    name:"Admin",
-                    id:"1"
-                }
-            ]
+            ],
         }
     }
     getVideos = async () =>{
@@ -32,18 +27,20 @@ export default class home extends react.Component{
     }
     render(){
         const {videos} = this.state;
-        console.log(videos)
+        console.log(videos);
         return(
         <>
             <Header/>
             <div className="home-videos__container">
                 <div className="home-videos">
-                    {videos.map((videos)=>{
+                    { videos.length === 0 ? 
+                    <div className="non_videos">비디오가없습니다.</div> :
+                    videos.map((videos)=>{
                         return(
                             <>
                             <div className="videos_wrap">
                                 <Link to="/"  title={videos.title+"로 바로가기"}>
-                                    <img src="#"/>
+                                    <img src="/d" alt="?"/>
                                     <div className="videos_info" key={videos.id}>
                                         <div className="videos_title">{videos.title}</div>
                                         <div className="videos_name">by {videos.name}</div>
@@ -52,7 +49,14 @@ export default class home extends react.Component{
                             </div>
                             </>
                         );
-                    })}
+                    }) 
+                    } 
+                    {
+                        videos.length > (1 * 20) ?
+                        <button type="button">더보기</button> :
+                        <noscript>Video no longer exists</noscript>
+                    }
+                   
                 </div>
             </div>
             <Footer/>
