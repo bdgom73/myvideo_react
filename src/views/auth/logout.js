@@ -1,6 +1,5 @@
 import react from "react";
 import { Redirect } from 'react-router-dom';
-
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
 class logout extends react.Component{
@@ -9,21 +8,27 @@ class logout extends react.Component{
     };
     constructor(props){
         super(props);
+        this.setState = {
+            
+        }
     }
 
     logout = ()=>{
         const {cookies}= this.props;
         cookies.remove("uid");
+        
     }
     
-    componentDidMount(){
+    componentWillMount(){
         this.logout();
     }
 
     render(){
         return(
-            <Redirect to="/"/>
+                <Redirect to="/"/>
         );
+        
+       
     }
 }
 export default withCookies(logout)

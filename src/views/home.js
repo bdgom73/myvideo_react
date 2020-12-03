@@ -7,18 +7,30 @@ export default class home extends react.Component{
         super(props);
         this.state = {
             user : [],
-            videos:[
-            ],
+            videos: [],
+            page:0,
+            itemCount :20
         }
     }
     getVideos = async () =>{
         const videos = await axios({
             method:"get",
-            url:"/api/videos/all"
+            url:"/videos/all"
         });
+        
+        const a = typeof(videos.data);
+        console.log(a);
+        console.log(videos.data.content);
         this.setState({
-            videos
-        });
+            videos : videos.data.content
+        })
+    }
+
+    handleNextPage = ()=>{
+        this.setState({
+            page : this.state.page + 1,
+            itemCount : this.state.itemCount + 20
+        })
     }
 
     componentDidMount(){
@@ -26,21 +38,19 @@ export default class home extends react.Component{
         getVideos();
     }
     render(){
-        const {videos} = this.state;
-        console.log(videos);
+        const {videos, page, itemCount} = this.state;
         return(
         <>
             <Header/>
             <div className="home-videos__container">
                 <div className="home-videos">
-                    { videos.length === 0 ? 
-                    <div className="non_videos">비디오가없습니다.</div> :
+                    { videos.length >= 1 ? 
                     videos.map((videos)=>{
                         return(
                             <>
                             <div className="videos_wrap">
-                                <Link to="/"  title={videos.title+"로 바로가기"}>
-                                    <img src="/d" alt="?"/>
+                                <Link to={`/video/detail/${videos}`} title={videos.title+"로 바로가기"}>
+                                    <video src={videos.videoUrl} alt="?"/>
                                     <div className="videos_info" key={videos.id}>
                                         <div className="videos_title">{videos.title}</div>
                                         <div className="videos_name">by {videos.name}</div>
@@ -49,11 +59,11 @@ export default class home extends react.Component{
                             </div>
                             </>
                         );
-                    }) 
+                    }) : <div className="non_videos">비디오가없습니다.</div> 
                     } 
                     {
-                        videos.length > (1 * 20) ?
-                        <button type="button">더보기</button> :
+                        videos.length > (page+1 * itemCount) ?  
+                        <button type="button" onClick={this.handleNextPage}>더보기</button> :
                         <noscript>Video no longer exists</noscript>
                     }
                    

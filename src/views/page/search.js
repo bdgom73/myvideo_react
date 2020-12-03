@@ -36,7 +36,6 @@ export default class home extends react.Component{
     render(){
         const {videos} = this.state;
         const query = quertString.parse(this.props.location.search);
-        console.log(query.q)
         return(
         <>
             <Header/>

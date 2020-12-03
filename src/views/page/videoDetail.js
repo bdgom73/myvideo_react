@@ -7,20 +7,16 @@ export default class videoDetail extends react.Component{
         super(props);
         this.state = {
             user : [],
-            videos:[
-                {
-                    title:"First Video!",
-                    name:"Admin",
-                    id:"1"
-                }
-            ]
+            videos:""
         }
     }
     getVideos = async () =>{
         const {match} =this.props;
         const params = match.params;
-        
-        await axios.get("/video/findone",{data: params.id})
+        const formData = new FormData();
+
+        formData.append("id",params.id)
+        await axios.post(`/video/detail/${params.id}`,formData)
             .then(res=>{
                 this.setState({
                     videos : res.data
@@ -33,29 +29,20 @@ export default class videoDetail extends react.Component{
     componentDidMount(){
         const {getVideos} = this;
         getVideos();
-
+       
     }
     render(){
         const {videos} = this.state;
+
         return(
         <>
             <Header/>
             <div className="video-view__wrap">
                 <div className="video_view">
-                    {videos.map((videos)=>{
-                        return(
-                            <>
-                            <div className="find-video"  key={videos.id} >
-                                <Link to="/"  title={videos.title+"로 바로가기"}>
-                                    <div className="find-video__main">
-                                        <div className="find-video_title">{videos.title}</div>
-                                        <div className="find-video_name">by {videos.name}</div>
-                                    </div>
-                                </Link>
-                            </div>
-                            </>
-                        );
-                    })}
+                    <video src={videos.videoUrl} controls/>
+                    <span>{videos.title}</span>
+                    <span>{videos.desc}</span>
+                    <span>{videos.date}</span>
                 </div>
             </div>
             <Footer/>

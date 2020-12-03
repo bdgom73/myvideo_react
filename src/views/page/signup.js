@@ -1,7 +1,6 @@
 import react from "react";
 import axios from "axios";
 import { Social} from "../../routes";
-import { config } from "react-spring";
 
 export default class signup extends react.Component{
     constructor(props){

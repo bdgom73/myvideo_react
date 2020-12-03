@@ -29,7 +29,7 @@ class App extends react.Component{
         <PubilcRouter path={path.signup} exact component={Signup}/>
         <PrivateRouter component={Mypage} path={path.me} ></PrivateRouter>
         {/* Video Router */}
-        <Route path="/video/:id" exact component={VideoDetail}></Route>   
+        <Route path="/video/detail/:id" exact component={VideoDetail}></Route>   
         <PrivateRouter component={Upload} path={path.upload}></PrivateRouter>
         {/* User Router */}
         <Route path="/user/:id" exact component={VideoDetail}></Route>   

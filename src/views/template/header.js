@@ -14,11 +14,6 @@ class Header extends react.Component{
             user : cookies.get("uid") || null
         } 
     }
-
-    logout = ()=>{
-        const {cookies}= this.props;
-        cookies.remove("uid");
-    }
     
     render(){
         const {user} = this.state;

@@ -30,11 +30,11 @@ class upload extends react.Component{
             headers:{
                 "Cookies" : this.state.user
             }
-        })
-            .then(res=>{
-                const id = res.data.videoid;
-                if(res.status === 200){
-                    this.props.history.push(`/video/${id}`);
+        }).then(res=>{
+                console.log(res)
+                const id = res.data;
+                if(res.data !== "error" || res.data !== "fail"){
+                    this.props.history.push(`/video/detail/${id}`);
                 }else{
                     alert("업로드에 실패했습니다.")
                 }
