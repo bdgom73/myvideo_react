@@ -8,24 +8,22 @@ class logout extends react.Component{
     };
     constructor(props){
         super(props);
-        this.setState = {
+        this.state = {
             
         }
     }
 
     logout = ()=>{
         const {cookies}= this.props;
-        cookies.remove("uid");
-        
+        cookies.remove("uid");       
     }
     
-    componentWillMount(){
-        this.logout();
-    }
-
     render(){
+        this.logout();
         return(
+            <>
                 <Redirect to="/"/>
+            </>
         );
         
        

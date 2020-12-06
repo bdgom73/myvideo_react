@@ -23,7 +23,7 @@ class pubilcRouter extends react.Component{
             <Route
                 path={path}
                 render={({...props})=>{
-                   return (user ? <Redirect to="/"/> : <Component {...props}/> ) 
+                   return (user ? <Redirect to="/"/> : <Component {...props} user={user}/> ) 
                 }}
                 exact = {exact === null ? true : exact === true ? exact : false}
             />)

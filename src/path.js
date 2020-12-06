@@ -11,6 +11,7 @@ const ME = "/me"; // User Path or Global Path
 //Video Path
 const VIDEO_DETAIL = "/video/:id";
 const UPLOAD = "/video/upload";
+const UPDATE_VIDEO = "/video/update/:id";
 
 //User Path
 const USER_DETAIL = "/user/:id";

@@ -49,7 +49,7 @@ export default class home extends react.Component{
                         return(
                             <>
                             <div className="videos_wrap">
-                                <Link to={`/video/detail/${videos}`} title={videos.title+"로 바로가기"}>
+                                <Link to={`/video/detail/${videos.id}`} title={videos.title+"로 바로가기"}>
                                     <video src={videos.videoUrl} alt="?"/>
                                     <div className="videos_info" key={videos.id}>
                                         <div className="videos_title">{videos.title}</div>

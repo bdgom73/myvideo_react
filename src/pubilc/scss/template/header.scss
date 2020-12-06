@@ -22,6 +22,12 @@ header{
                     color:white;
                     font-weight: 500;
                 }     
+                span{
+                    font-size:15px;
+                    color:white;
+                    font-weight: 500;
+                    cursor: pointer;
+                }
             }
             li:not(:first-child){
                 margin-left: 10px;

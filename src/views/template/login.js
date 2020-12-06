@@ -19,7 +19,6 @@ export class nonLogin extends react.Component{
 export class isLogin extends react.Component{
 
     
-
     render(){
         return(
             <>
@@ -27,7 +26,7 @@ export class isLogin extends react.Component{
                     <ul>
                         <li><Link to="/me">Mypage</Link></li>
                         <li><Link to="/video/upload">upload</Link></li>
-                        <li><Link to="/logout">logout</Link></li>
+                        <li><span onClick={this.props.logout}>logout</span></li>
                     </ul>
                 </div>
             </>

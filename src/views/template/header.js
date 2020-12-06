@@ -1,5 +1,5 @@
 import react from "react";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {NonLogin,IsLogin} from "../../routes";
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
@@ -15,6 +15,12 @@ class Header extends react.Component{
         } 
     }
     
+    logout =  ()=>{
+        const {cookies} = this.props
+        cookies.remove("uid");
+        window.location.reload();
+    }
+
     render(){
         const {user} = this.state;
         return(
@@ -29,7 +35,7 @@ class Header extends react.Component{
                     <form className="search" action="/search">
                         <input type="text" name="q" placeholder="검색어를 입력해주세요"></input>
                     </form>
-                    {user ?  <IsLogin/> : <NonLogin/>}
+                    {user ?  <IsLogin logout={this.logout}/> : <NonLogin/>}
                 </div>
             </header>
         );

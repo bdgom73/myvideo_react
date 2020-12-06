@@ -1,10 +1,11 @@
-import {Home,Login, Signup,Mypage, Upload, PrivateRouter,PubilcRouter, Logout, Search, VideoDetail} from "./routes"
+import {Home,Login, Signup,Mypage, Upload, PrivateRouter,PubilcRouter, Logout, Search, VideoDetail, UpdateVideo} from "./routes"
 import react from 'react';
 import "./pubilc/scss/style.scss"
 import { BrowserRouter as Router,Route } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { Cookies,withCookies } from 'react-cookie';
 import path from "./path";
+import Axios from "axios";
 class App extends react.Component{
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -12,25 +13,37 @@ class App extends react.Component{
   constructor(props){
     super(props);
     this.state = {
-      user : this.props.cookies.get("uid"),
+      user : this.props.cookies.get("uid") || null,
   }
   
 }
 
   render(){
-    console.log("2"+this.state.user)
     return(
       <Router>
         {/* Global Router */}
-        <Route path={path.home} exact component={Home}></Route>  
-        <Route path={path.search} exact component={Search}></Route>    
+        <Route path={path.home} exact render={
+          ({...props})=>{
+            return <Home {...props}/>
+          }
+        }></Route>  
+        <Route path={path.search} exact render={
+          ({...props})=>{
+            return <Search  {...props}/>
+          }}></Route>    
         <PubilcRouter path={path.login} exact component={Login}/>
         <PrivateRouter component={Logout} path={path.logout} ></PrivateRouter>
         <PubilcRouter path={path.signup} exact component={Signup}/>
         <PrivateRouter component={Mypage} path={path.me} ></PrivateRouter>
         {/* Video Router */}
-        <Route path="/video/detail/:id" exact component={VideoDetail}></Route>   
-        <PrivateRouter component={Upload} path={path.upload}></PrivateRouter>
+        <Route path="/video/detail/:id" exact render={
+          ({...props})=>{
+            return <VideoDetail 
+                      {...props}
+                      />
+          }}></Route>   
+        <PrivateRouter component={Upload} path={path.upload} ></PrivateRouter>
+        <PrivateRouter component={UpdateVideo} path="/video/update/:id" exact></PrivateRouter>
         {/* User Router */}
         <Route path="/user/:id" exact component={VideoDetail}></Route>   
       </Router>

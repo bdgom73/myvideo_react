@@ -11,6 +11,7 @@ export {default as Mypage} from "./views/page/mypage";
 export {default as Upload} from "./views/page/upload";
 export {default as Search} from "./views/page/search";
 export {default as VideoDetail} from "./views/page/videoDetail";
+export {default as UpdateVideo} from "./views/page/updateVideo";
 
 // Home
 export {default as Home} from "./views/home";
