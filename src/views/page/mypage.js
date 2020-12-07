@@ -17,11 +17,11 @@ class Mypage extends react.Component{
           me :{
               videos:[]
           },
-          update: false
+          update: false,
+          updateAvatar : false,
+          changepw:false
         } 
     }
-
-
     getUserAndVideo = ()=>{
         Axios.get("/me",{
             headers:{
@@ -41,7 +41,7 @@ class Mypage extends react.Component{
         this.getUserAndVideo();
     }
     render(){
-        const {me,update} = this.state;
+        const {me,update,updateAvatar,changepw} = this.state;
         return(
                 <>
                 <Header></Header>
@@ -54,10 +54,18 @@ class Mypage extends react.Component{
                             <span>{me.email}</span>
                             <div className="mypage_btn">
                                 <button type="button" onClick={()=>{this.setState({update: !update})}}>수정</button>
+                                <button type="button" onClick={()=>{this.setState({updateAvatar: !updateAvatar})}}>아바타변경</button>
+                                <button type="button" onClick={()=>{this.setState({changepw: !changepw})}}>비밀번호변경</button>
                             </div>                          
                         </div>
                         {
-                            update ? <UpdateMypage cookies={this.state.user}/> : <></>
+                            update ? <UpdateMypage cookies={this.state.user} me={me}/> : <></>
+                        }
+                        {
+                            updateAvatar ? <UpdateAvatar cookies={this.state.user}/> : <></>
+                        }
+                        {
+                            changepw ? <ChangePW cookies={this.state.user}/> : <></>
                         }
                         <h1>Uploaded Video</h1>
                         <div className="mypage_myvideo">                        
@@ -92,10 +100,117 @@ class Mypage extends react.Component{
 class UpdateMypage extends react.Component{
     constructor(props){
         super(props);
+        const {me}= this.props;
+        this.state = {
+            user : this.props.cookies,
+            updatePW:false,
+            msg:"",
+            name: me.name,
+            nickname: me.nickname
+        }
+    }
+
+    
+
+    onNameChangeHandler = (event)=>{
+        this.setState({
+            name : event.target.value
+        })
+    }
+    onNickNameChangeHandler = (event)=>{
+        this.setState({
+            nickname : event.target.value
+        })
+    }
+
+    updateUserProfile = (e)=>{
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("name",e.target[0].value);
+        fd.append("nickname",e.target[1].value);
+
+        Axios.post("/user/changeProfile",fd,{
+            headers:{
+                "Cookies": this.state.user
+            }
+        }).then(res=>{
+            if(res.status === 200){
+                window.location.reload();
+            }
+        })
+    }
+
+    
+
+    render(){
+        const {updatePW,name,nickname} = this.state; 
+        return(
+            <div className="mypage_update">              
+                <form onSubmit={this.updateUserProfile}>   
+                    <input type="text" name="name" onChange={this.onNameChangeHandler} value={name}></input>
+                    <input type="text" name="nickname" onChange={this.onNickNameChangeHandler} value={nickname}></input>
+                    <input type="submit" value="수정"></input>
+                </form>
+                <button type="button" onClick={()=>{this.setState({updatePW:!updatePW})}}>비밀번호 변경</button> 
+               
+            </div>
+        );
+    }
+}
+class ChangePW extends react.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            user : this.props.cookies,
+        }
+    }
+    changePassword = (e)=>{
+        e.preventDefault();
+        const pwForm = {
+            previousPassword : e.target[0].value,
+            newPassword1 : e.target[1].value,
+            newPassword2 : e.target[2].value
+        }
+        try{
+            Axios.post("/user/passwordChange",pwForm,{
+                headers:{
+                    "Cookies" : this.state.user
+                }
+            }).then(res=>{
+                console.log(res);
+                if(res.status===200){
+                    window.location.reload();                
+            }}
+            ).catch(error =>{
+                alert("비밀번호 설정에 실패했습니다.");
+            })
+                
+        }catch(error){
+            console.log(error)
+        }
+    }
+    render(){
+        return(
+            <>
+            <div className="change-pw_wrap" >
+                <form onSubmit={this.changePassword}>
+                    <input type="password" name="previousPassword" placeholder="현재비밀번호를 입력해주세요" required></input>
+                    <input type="password" name="newPassword1" placeholder="바꿀 비밀번호를 입력해주세요" required></input>
+                    <input type="password" name="newPassword2" placeholder="비밀번호를 재 입력해주세요" required></input>
+                    <input type="submit" value="비밀번호 변경"></input>
+                </form>
+            </div>
+            </>
+        );
+    }
+
+}
+class UpdateAvatar extends react.Component{
+    constructor(props){
+        super(props);
         this.state = {
             avatarPreviewUrl :"",
-            updatePW:false,
-            msg:""
+            user : this.props.cookies
         }
     }
 
@@ -117,68 +232,42 @@ class UpdateMypage extends react.Component{
         
     }
 
-    changePassword = (e)=>{
-        const {cookies} = this.props;
+    onChangeAvatarHandler = (e)=>{
         e.preventDefault();
-        const pwForm = {
-            previousPassword : e.target[0].value,
-            newPassword1 : e.target[1].value,
-            newPassword2 : e.target[2].value
-        }
-        try{
-            Axios.post("/user/passwordChange",pwForm,{
-                headers:{
-                    "Cookies" : cookies
-                }
-            }).then(res=>{
-                if(res.status===400){
-                    this.setState({
-                        msg : "비밀번호 변경에 실패하였습니다.", 
-                    })
-                }else{
-                    this.setState({
-                        updatePW:false
-                    })
-                }
-            })
-                
-        }catch(error){
-            console.log(error);
-        }
+        const fd = new FormData();
+        fd.append("avatar",e.target[0].files[0]);
+
+        Axios.post("/user/changeInfo",fd,{
+            headers:{
+                "Cookies" : this.state.user
+            }
+        }).then(res=>{
+            if(res.status === 200){
+                window.location.reload();
+            }
+        })
     }
 
     render(){
-        const {avatarPreviewUrl,updatePW} = this.state; 
+        const {avatarPreviewUrl} = this.state
         return(
-            <div className="mypage_update">
-                {
+            <>
+            {
                     avatarPreviewUrl ? <img src={avatarPreviewUrl} alt="avatar preview"/> : ""
-                }
-                <form onSubmit={()=>{console.log("a")}}>
+                }   
+            <div className="mypage_update">
+                <form onSubmit={this.onChangeAvatarHandler}>
                     <p>
                         <label for="avatar">avatar</label>
                         <input type="file" name="avatar" onChange={this.avatarPreview}></input>
                     </p>
-                    <input type="text" name="name"></input>
-                    <input type="submit" value="수정"></input>
+                    <input type="submit" value="아바타 변경"/>
                 </form>
-                <button type="button" onClick={()=>{this.setState({updatePW:!updatePW})}}>비밀번호 변경</button> 
-                {
-                    updatePW ? (
-                        <>
-                            <div className="change-pw_wrap" >
-                                <form onSubmit={this.changePassword}>
-                                    <input type="password" name="previousPassword" placeholder="현재비밀번호를 입력해주세요"></input>
-                                    <input type="password" name="newPassword1" placeholder="바꿀 비밀번호를 입력해주세요"></input>
-                                    <input type="password" name="newPassword2" placeholder="비밀번호를 재 입력해주세요"></input>
-                                    <input type="submit" value="비밀번호 변경"></input>
-                                </form>
-                            </div>
-                        </>
-                    ) : (<></>)
-                }         
             </div>
+            </>
         );
     }
 }
+
+
 export default withCookies(Mypage);

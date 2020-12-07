@@ -19,11 +19,12 @@ class privateRouter extends react.Component{
     const {component,path,exact} = this.props;
     const Component = component;
     const {user} = this.state;
+    console.log(user)
     return(
             <Route
                 path={path}
                 render={({...props})=>{
-                   return (user !==[] ? <Component {...props} user={user}/> : <Redirect to="/login"/>) 
+                   return (user ? <Component {...props} user={user}/> : <Redirect to="/login"/>) 
                 }}
                 exact = {exact === null ? true : exact === true ? exact : false}
             />)

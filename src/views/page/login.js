@@ -27,7 +27,7 @@ class Login extends react.Component{
             .then((res)=>{
                 if(res.data !== null && res.status === 200){
                     cookies.set("uid",res.data,{path:"/"})
-                    this.props.history.push("/");
+                    window.history.go("/")
                 }else{
                     this.setState({
                         message:"아이디나 비밀번호가 일치하지 않습니다."
